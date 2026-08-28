@@ -27,7 +27,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
 ]
 
-ROOT_URLCONF = 'airline_project.urls'
+ROOT_URLCONF = 'AeroReserve.urls'
 
 TEMPLATES = [
     {
@@ -45,7 +45,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'airline_project.wsgi.application'
+WSGI_APPLICATION = 'AeroReserve.wsgi.application'
 
 DATABASES = {
     'default': {
