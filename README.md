@@ -36,7 +36,7 @@ AeroReserve is a premium web-based Airline Reservation and Booking System built 
 1. **Clone the Repository**
    ```bash
    git clone https://github.com/amanrobinsonthakur/AeroReserve-.git
-   cd AeroReserve-
+   cd AeroReserve
    ```
 
 2. **Set up Virtual Environment**
