@@ -1,0 +1,338 @@
+{% extends 'adminpanel/base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <!-- HEADER -->
+
+        <div class="card-header bg-primary text-white p-4 rounded-top-4">
+
+            <h2 class="mb-0">
+
+                ✈ Add New Flight
+
+            </h2>
+
+        </div>
+
+        <!-- BODY -->
+
+        <div class="card-body p-5">
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <!-- FLIGHT DETAILS -->
+
+                <h4 class="text-primary mb-4">
+
+                    Flight Details
+
+                </h4>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label fw-bold">
+
+                            Flight Name
+
+                        </label>
+
+                        {{ form.flight_name }}
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label fw-bold">
+
+                            Flight Number
+
+                        </label>
+
+                        {{ form.flight_no }}
+
+                    </div>
+
+                </div>
+
+                <!-- ROUTE -->
+
+                <h4 class="text-primary mt-4 mb-4">
+
+                    Route Information
+
+                </h4>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label fw-bold">
+
+                            Source Airport
+
+                        </label>
+
+                        {{ form.source }}
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label fw-bold">
+
+                            Destination Airport
+
+                        </label>
+
+                        {{ form.destination }}
+
+                    </div>
+
+                </div>
+
+                <!-- DATE TIME -->
+
+                <h4 class="text-primary mt-4 mb-4">
+
+                    Flight Schedule
+
+                </h4>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label fw-bold">
+
+                            Departure Time
+
+                        </label>
+
+                        {{ form.departure_time }}
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label fw-bold">
+
+                            Arrival Time
+
+                        </label>
+
+                        {{ form.arrival_time }}
+
+                    </div>
+
+                </div>
+
+                <!-- SEATS -->
+
+                <h4 class="text-primary mt-4 mb-4">
+
+                    Seat Configuration
+
+                </h4>
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label fw-bold">
+
+                            Total Seats
+
+                        </label>
+
+                        {{ form.total_seats }}
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label fw-bold">
+
+                            Available Seats
+
+                        </label>
+
+                        {{ form.available_seats }}
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label fw-bold text-danger">
+
+                            First Class Seats
+
+                        </label>
+
+                        {{ form.first_class_seats }}
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label fw-bold text-warning">
+
+                            Business Seats
+
+                        </label>
+
+                        {{ form.business_seats }}
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label fw-bold text-primary">
+
+                            Premium Seats
+
+                        </label>
+
+                        {{ form.premium_seats }}
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label fw-bold text-success">
+
+                            Economy Seats
+
+                        </label>
+
+                        {{ form.economy_seats }}
+
+                    </div>
+
+                </div>
+
+                <!-- PRICES -->
+
+                <h4 class="text-primary mt-4 mb-4">
+
+                    Ticket Prices
+
+                </h4>
+
+                <div class="row">
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label fw-bold text-danger">
+
+                            First Class Price
+
+                        </label>
+
+                        {{ form.first_price }}
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label fw-bold text-warning">
+
+                            Business Price
+
+                        </label>
+
+                        {{ form.business_price }}
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label fw-bold text-primary">
+
+                            Premium Price
+
+                        </label>
+
+                        {{ form.premium_price }}
+
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+
+                        <label class="form-label fw-bold text-success">
+
+                            Economy Price
+
+                        </label>
+
+                        {{ form.economy_price }}
+
+                    </div>
+
+                </div>
+
+                <!-- BUTTONS -->
+
+                <div class="mt-4 d-flex gap-3">
+
+                    <button class="btn btn-success px-5 py-2">
+
+                        Save Flight
+
+                    </button>
+
+                    <a href="/adminpanel/flights/"
+                       class="btn btn-secondary px-5 py-2">
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.form-control{
+
+    border-radius:12px;
+
+    padding:12px;
+
+}
+
+.card{
+
+    overflow:hidden;
+
+}
+
+.btn{
+
+    border-radius:12px;
+
+    font-weight:bold;
+
+}
+
+</style>
+
+{% endblock %}

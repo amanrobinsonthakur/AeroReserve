@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- HERO SECTION -->
+    <div class="text-center mb-5 mt-3">
+        <h1 class="display-5 fw-bold text-dark">
+            <span class="text-primary">Explore</span> & Book Flights
+        </h1>
+        <p class="text-muted fs-5">
+            Discover the best routes at competitive prices, customized for your comfort.
+        </p>
+    </div>
+
+    <!-- SEARCH & FILTER BAR -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-10">
+            <div class="premium-card p-4 shadow-sm border-0 bg-white">
+                <form method="get" action="{% url 'home' %}">
+                    <div class="row g-3 align-items-end">
+                        
+                        <!-- Source Input -->
+                        <div class="col-md-5">
+                            <label class="form-label text-muted small fw-semibold">
+                                <i class="fa-solid fa-plane-departure me-1 text-primary"></i> From (Departure City)
+                            </label>
+                            <input type="text" name="source" class="form-control premium-input w-100" placeholder="e.g. New Delhi" value="{{ source }}">
+                        </div>
+
+                        <!-- Destination Input -->
+                        <div class="col-md-5">
+                            <label class="form-label text-muted small fw-semibold">
+                                <i class="fa-solid fa-plane-arrival me-1 text-primary"></i> To (Arrival City)
+                            </label>
+                            <input type="text" name="destination" class="form-control premium-input w-100" placeholder="e.g. Mumbai" value="{{ destination }}">
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold text-white shadow-sm btn-search" style="background: var(--primary-grad); border: none; height: 48px;">
+                                <i class="fa-solid fa-search me-1"></i> Search
+                            </button>
+                        </div>
+                        
+                    </div>
+                    
+                    {% if source or destination %}
+                    <div class="text-center mt-3">
+                        <a href="{% url 'home' %}" class="small text-decoration-none fw-bold text-danger">
+                            <i class="fa-solid fa-circle-xmark me-1"></i> Clear Filters
+                        </a>
+                    </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLIGHT LISTINGS -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            
+            {% for f in flights %}
+            <div class="premium-card mb-4 overflow-hidden">
+                <div class="row g-0 align-items-stretch">
+                    
+                    <!-- FLIGHT & LOGO -->
+                    <div class="col-md-3 bg-light p-4 d-flex flex-column justify-content-center border-end border-light">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="flight-logo-icon">
+                                <i class="fa-solid fa-plane text-primary fs-3"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0 fw-bold text-dark">{{ f.flight_name }}</h5>
+                                <span class="badge bg-secondary-subtle text-secondary rounded-pill mt-1">{{ f.flight_no }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ROUTE & TIMINGS -->
+                    <div class="col-md-6 p-4 d-flex flex-column justify-content-center">
+                        <div class="row align-items-center text-center text-md-start">
+                            
+                            <!-- Source -->
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <h3 class="mb-0 fw-bold text-dark">{{ f.source }}</h3>
+                                <div class="text-muted small mt-1">Departure</div>
+                                <div class="text-primary fw-semibold small mt-1">{{ f.departure_time|date:"d M, H:i" }}</div>
+                            </div>
+                            
+                            <!-- Path Arrow -->
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <div class="d-flex flex-column align-items-center position-relative px-2">
+                                    <div class="route-line w-100 bg-secondary-subtle"></div>
+                                    <i class="fa-solid fa-plane-departure text-primary bg-white px-2 position-relative" style="z-index: 1;"></i>
+                                    <span class="badge bg-light text-dark rounded-pill border border-light mt-2 small">Non-Stop</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Destination -->
+                            <div class="col-md-4">
+                                <h3 class="mb-0 fw-bold text-dark">{{ f.destination }}</h3>
+                                <div class="text-muted small mt-1">Arrival</div>
+                                <div class="text-primary fw-semibold small mt-1">{{ f.arrival_time|date:"d M, H:i" }}</div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- PRICE, SEATS & BOOKING -->
+                    <div class="col-md-3 p-4 bg-light-subtle d-flex flex-column justify-content-center border-start border-light text-center text-md-start">
+                        
+                        <div class="mb-3">
+                            <span class="text-muted small d-block">Starting from</span>
+                            <h3 class="text-success fw-extrabold mb-0">₹{{ f.economy_price }}</h3>
+                        </div>
+
+                        <div class="mb-3">
+                            {% now "Y-m-d H:i" as current_time %}
+                            {% if f.departure_time|date:"Y-m-d H:i" < current_time %}
+                                <span class="badge bg-danger-subtle text-danger rounded-pill px-3 py-2 w-100">Expired</span>
+                            {% else %}
+                                <span class="badge bg-success-subtle text-success rounded-pill px-3 py-2 w-100">
+                                    <i class="fa-solid fa-chair me-1"></i> {{ f.available_seats }} Seats Available
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            {% if f.departure_time|date:"Y-m-d H:i" < current_time %}
+                                <button class="btn btn-outline-secondary w-100 rounded-pill py-2" disabled>Closed</button>
+                            {% else %}
+                                {% if user.is_authenticated %}
+                                    <a href="{% url 'book_flight' f.id %}" class="btn btn-primary w-100 rounded-pill py-2 fw-bold text-white shadow-sm btn-book">
+                                        Book Now <i class="fa-solid fa-arrow-right ms-1"></i>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'login' %}" class="btn btn-warning w-100 rounded-pill py-2 fw-bold shadow-sm">
+                                        Login to Book
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            {% empty %}
+            <div class="premium-card p-5 text-center">
+                <i class="fa-solid fa-plane-slash text-muted display-4 mb-3"></i>
+                <h4 class="fw-bold">No Flights Found</h4>
+                <p class="text-muted mb-0">There are no flights listed right now. Please check back later.</p>
+            </div>
+            {% endfor %}
+
+            <!-- PAGINATION -->
+            {% if flights.has_other_pages %}
+            <div class="d-flex justify-content-center mt-5">
+                <nav>
+                    <ul class="pagination pagination-rounded gap-2 border-0">
+                        {% if flights.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link border-0 rounded-circle shadow-sm d-flex align-items-center justify-content-center" href="?page=1&source={{ source }}&destination={{ destination }}" style="width: 40px; height: 40px;">
+                                <i class="fa-solid fa-angles-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link border-0 rounded-circle shadow-sm d-flex align-items-center justify-content-center" href="?page={{ flights.previous_page_number }}&source={{ source }}&destination={{ destination }}" style="width: 40px; height: 40px;">
+                                <i class="fa-solid fa-angle-left"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        <li class="page-item active">
+                            <span class="page-link border-0 rounded-circle shadow d-flex align-items-center justify-content-center bg-primary text-white" style="width: 40px; height: 40px; font-weight: 600;">
+                                {{ flights.number }}
+                            </span>
+                        </li>
+
+                        {% if flights.has_next %}
+                        <li class="page-item">
+                            <a class="page-link border-0 rounded-circle shadow-sm d-flex align-items-center justify-content-center" href="?page={{ flights.next_page_number }}&source={{ source }}&destination={{ destination }}" style="width: 40px; height: 40px;">
+                                <i class="fa-solid fa-angle-right"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link border-0 rounded-circle shadow-sm d-flex align-items-center justify-content-center" href="?page={{ flights.paginator.num_pages }}&source={{ source }}&destination={{ destination }}" style="width: 40px; height: 40px;">
+                                <i class="fa-solid fa-angles-right"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .flight-logo-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(79, 70, 229, 0.08);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .route-line {
+        height: 2px;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        z-index: 0;
+    }
+
+    .btn-book {
+        background: var(--primary-grad);
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-book:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
+    }
+
+    .pagination .page-link {
+        color: var(--text-main);
+        background: white;
+    }
+
+    .pagination .page-link:hover {
+        background: rgba(79, 70, 229, 0.05);
+        color: #4f46e5;
+    }
+</style>
+
+{% endblock %}

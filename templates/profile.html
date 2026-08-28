@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="premium-card p-0 shadow-lg border-0 overflow-hidden">
+                
+                <!-- HEADER -->
+                <div class="p-4 p-md-5 bg-light border-bottom border-light-subtle text-center">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-primary-subtle text-primary rounded-circle mb-3" style="width: 70px; height: 70px;">
+                        <i class="fa-solid fa-user-gear fs-2"></i>
+                    </div>
+                    <h3 class="fw-bold text-dark mb-1">My Profile</h3>
+                    <p class="text-muted small mb-0">Update your personal account details and email preferences.</p>
+                </div>
+
+                <!-- BODY -->
+                <div class="p-4 p-md-5 bg-white">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="row g-3">
+                            <!-- FIRST NAME -->
+                            <div class="col-sm-6">
+                                <label class="form-label text-muted small fw-semibold">First Name</label>
+                                {{ form.first_name }}
+                            </div>
+
+                            <!-- LAST NAME -->
+                            <div class="col-sm-6">
+                                <label class="form-label text-muted small fw-semibold">Last Name</label>
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+
+                        <!-- USERNAME -->
+                        <div class="mb-3 mt-3">
+                            <label class="form-label text-muted small fw-semibold">Username</label>
+                            {{ form.username }}
+                        </div>
+
+                        <!-- EMAIL -->
+                        <div class="mb-4">
+                            <label class="form-label text-muted small fw-semibold">Email Address</label>
+                            {{ form.email }}
+                        </div>
+
+                        <!-- BUTTON -->
+                        <button class="btn btn-primary w-100 rounded-pill py-3 fw-bold shadow-sm mb-3" style="background: var(--primary-grad); border: none;">
+                            Update Profile <i class="fa-solid fa-circle-check ms-1"></i>
+                        </button>
+                        
+                        <div class="text-center">
+                            <a href="{% url 'change_password' %}" class="small text-decoration-none fw-semibold">
+                                <i class="fa-solid fa-key me-1"></i> Change Password
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Make form widgets look premium */
+    .premium-card input {
+        display: block;
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 15px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 14px !important;
+        transition: all 0.2s ease;
+        outline: none;
+    }
+    .premium-card input:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+    }
+</style>
+
+{% endblock %}

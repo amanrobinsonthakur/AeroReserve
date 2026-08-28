@@ -1,0 +1,251 @@
+{% extends 'adminpanel/base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="mb-4 fw-bold">
+
+        Manage Bookings
+
+    </h2>
+
+    <div class="card shadow-lg border-0 rounded-4 p-4">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle text-center">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Ticket No</th>
+
+                        <th>User</th>
+
+                        <th>Flight</th>
+
+                        <th>Passengers</th>
+
+                        <th>Seats</th>
+
+                    
+
+                        <th>Amount</th>
+
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for b in bookings %}
+
+                    <tr>
+
+                        <td>
+
+                       {{ forloop.counter }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-primary p-2">
+
+                                {{ b.ticket_number }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {{ b.user.username }}
+
+                        </td>
+
+                        <td>
+
+                            <b>
+
+                                {{ b.flight.flight_name }}
+
+                            </b>
+
+                            <br>
+
+                            <small class="text-muted">
+
+                                {{ b.flight.flight_no }}
+
+                            </small>
+
+                        </td>
+
+                        <td>
+
+                            {{ b.passenger_name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ b.seat_numbers }}
+
+                        </td>
+
+                     
+
+                        <td class="fw-bold text-success">
+
+                            ₹{{ b.total_amount }}
+
+                        </td>
+
+                       <td>
+
+    {% if b.status == 'Confirmed' %}
+
+        <span class="badge bg-success p-2">
+
+            {{ b.status }}
+
+        </span>
+
+    {% elif b.status == 'Cancelled' %}
+
+        <span class="badge bg-danger p-2">
+
+            {{ b.status }}
+
+        </span>
+
+    {% elif b.status == 'Pending' %}
+
+        <span class="badge bg-warning text-dark p-2">
+
+            {{ b.status }}
+
+        </span>
+
+    {% else %}
+
+        <span class="badge bg-secondary p-2">
+
+            {{ b.status }}
+
+        </span>
+
+    {% endif %}
+
+</td>
+<td>
+
+    <a href="{% url 'ticket_details' b.id %}"
+       class="btn btn-info btn-sm text-white mb-1">
+
+        View Ticket
+
+    </a>
+
+    <br>
+
+    {% now "Y-m-d H:i:s" as current_time %}
+
+    {% if b.status == 'Cancelled' %}
+
+        <span class="badge bg-danger">
+
+            Ticket Already Cancelled
+
+        </span>
+
+    {% elif b.flight.arrival_time|date:"Y-m-d H:i:s" > current_time %}
+
+        <a href="{% url 'cancel_booking' b.id %}"
+
+           class="btn btn-danger btn-sm"
+
+           onclick="event.preventDefault(); showConfirm('Are you sure you want to cancel this booking?', () => window.location.href='{% url 'cancel_booking' b.id %}')">
+
+            Cancel Ticket
+
+        </a>
+
+    {% else %}
+
+        <span class="badge bg-secondary">
+
+            Journey Completed
+
+        </span>
+
+    {% endif %}
+
+</td>
+
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="9">
+
+                            No bookings found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.card{
+
+    border-radius:20px;
+
+}
+
+.table th{
+
+    vertical-align:middle;
+
+}
+
+.table td{
+
+    vertical-align:middle;
+
+}
+
+.badge{
+
+    border-radius:10px;
+
+    font-size:14px;
+
+}
+
+</style>
+
+{% endblock %}

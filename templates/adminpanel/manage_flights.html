@@ -1,0 +1,92 @@
+{% extends 'adminpanel/base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between mb-4">
+
+    <h2>
+        Manage Flights
+    </h2>
+
+    <a href="/adminpanel/flights/add/"
+       class="btn btn-primary">
+
+        Add Flight
+
+    </a>
+
+</div>
+
+<div class="card shadow p-4 rounded-4">
+
+    <table class="table table-bordered table-hover text-center">
+
+        <tr class="table-dark">
+
+            <th>ID</th>
+            <th>Flight</th>
+            <th>Route</th>
+            <th>Seats</th>
+            <th>Price</th>
+            <th>Action</th>
+
+        </tr>
+
+        {% for f in flights %}
+
+        <tr>
+
+            <td>
+                {{ f.id }}
+            </td>
+
+            <td>
+                {{ f.flight_name }}
+                <br>
+
+                <small>
+                    {{ f.flight_no }}
+                </small>
+            </td>
+
+            <td>
+                {{ f.source }}
+                →
+                {{ f.destination }}
+            </td>
+
+            <td>
+                {{ f.available_seats }}
+            </td>
+
+            <td>
+                ₹{{ f.economy_price }}
+            </td>
+
+            <td>
+
+                <a href="/adminpanel/flights/edit/{{f.id}}/"
+                   class="btn btn-warning btn-sm">
+
+                    Edit
+
+                </a>
+
+                <a href="/adminpanel/flights/delete/{{f.id}}/"
+                   class="btn btn-danger btn-sm">
+
+                    Delete
+
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+{% endblock %}

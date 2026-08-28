@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airline Reservation & Booking System</title>
+    
+    <!-- BOOTSTRAP 5 & FONT AWESOME -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-grad: linear-gradient(135deg, #4f46e5, #6366f1);
+            --secondary-grad: linear-gradient(135deg, #0f172a, #1e293b);
+            --accent-grad: linear-gradient(135deg, #f59e0b, #d97706);
+            --bg-color: #f8fafc;
+            --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 5px 15px -3px rgba(0, 0, 0, 0.02);
+            --card-shadow-hover: 0 20px 40px -10px rgba(79, 70, 229, 0.12), 0 10px 20px -5px rgba(0, 0, 0, 0.04);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6, .navbar-brand {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+        }
+
+        /* PREMIUM NAVBAR */
+        .navbar {
+            background: rgba(15, 23, 42, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 18px 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: var(--primary-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-brand i {
+            background: var(--primary-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-btn {
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .nav-btn-primary {
+            background: var(--primary-grad);
+            color: white !important;
+            border: none;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .nav-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .nav-btn-outline {
+            background: transparent;
+            color: #e2e8f0 !important;
+            border: 1.5px solid rgba(226, 232, 240, 0.2);
+        }
+
+        .nav-btn-outline:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white !important;
+            border: none;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+        }
+
+        .nav-btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35);
+        }
+
+        .nav-btn-accent {
+            background: var(--accent-grad);
+            color: white !important;
+            border: none;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .nav-btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        /* WRAPPER AND MAIN */
+        .main-container {
+            flex: 1;
+            padding-bottom: 50px;
+        }
+
+        /* CUSTOM CARD STYLING */
+        .premium-card {
+            background: white;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 24px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .premium-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        /* FORM CONTROLS */
+        .premium-input {
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .premium-input:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'landing_page' %}">
+            <i class="fa-solid fa-plane-departure"></i>
+            <span>AeroReserve</span>
+        </a>
+        
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <div class="ms-auto d-flex flex-wrap gap-2 mt-3 mt-lg-0 align-items-center">
+                <a href="{% url 'home' %}" class="nav-btn nav-btn-outline">
+                    <i class="fa-solid fa-search"></i> Search Flights
+                </a>
+                
+                {% if user.is_authenticated %}
+                    <a href="{% url 'user_profile' %}" class="nav-btn nav-btn-outline">
+                        <i class="fa-solid fa-user"></i> Profile
+                    </a>
+                    <a href="{% url 'my_bookings' %}" class="nav-btn nav-btn-primary">
+                        <i class="fa-solid fa-ticket-simple"></i> My Bookings
+                    </a>
+                    <a href="{% url 'logout' %}" class="nav-btn nav-btn-danger">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-btn nav-btn-outline">
+                        <i class="fa-solid fa-right-to-bracket"></i> User Login
+                    </a>
+                    <a href="{% url 'admin_login' %}" class="nav-btn nav-btn-outline">
+                        <i class="fa-solid fa-user-shield"></i> Admin Panel
+                    </a>
+                    <a href="{% url 'register' %}" class="nav-btn nav-btn-accent">
+                        <i class="fa-solid fa-user-plus"></i> Register
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- MESSAGES -->
+{% if messages %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                {% for message in messages %}
+                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show rounded-4 shadow-sm border-0 mb-3 p-3 d-flex align-items-center" role="alert">
+                        <div class="me-2">
+                            {% if message.tags == 'success' %}
+                                <i class="fa-solid fa-circle-check text-success fs-5"></i>
+                            {% elif message.tags == 'error' %}
+                                <i class="fa-solid fa-circle-exclamation text-danger fs-5"></i>
+                            {% else %}
+                                <i class="fa-solid fa-circle-info text-info fs-5"></i>
+                            {% endif %}
+                        </div>
+                        <div>
+                            {{ message }}
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+<!-- Generic Confirmation Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true" style="z-index: 9999;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow-lg">
+      <div class="modal-header border-0 bg-light p-4 rounded-top-4">
+        <h5 class="modal-title fw-bold text-dark" id="confirmModalLabel">Confirm Action</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4 text-secondary" id="confirmModalBody" style="font-size: 15px;">
+        Are you sure you want to proceed?
+      </div>
+      <div class="modal-footer border-0 p-4 bg-light rounded-bottom-4">
+        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger rounded-pill px-4" id="confirmModalYesBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Generic Alert Modal -->
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true" style="z-index: 9999;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow-lg">
+      <div class="modal-header border-0 bg-light p-4 rounded-top-4">
+        <h5 class="modal-title fw-bold text-dark" id="alertModalLabel">Alert</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4 text-secondary" id="alertModalBody" style="font-size: 15px;">
+        Notification content.
+      </div>
+      <div class="modal-footer border-0 p-4 bg-light rounded-bottom-4">
+        <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showConfirm(message, callback) {
+    const modalEl = document.getElementById('confirmModal');
+    if (!modalEl) return;
+    
+    document.getElementById('confirmModalBody').innerText = message;
+    
+    const confirmBtn = document.getElementById('confirmModalYesBtn');
+    
+    // Remove old listeners by cloning
+    const newConfirmBtn = confirmBtn.cloneNode(true);
+    confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+    
+    const bootstrapModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    
+    newConfirmBtn.addEventListener('click', function() {
+        bootstrapModal.hide();
+        callback();
+    });
+    
+    bootstrapModal.show();
+}
+
+function showAlert(message) {
+    const modalEl = document.getElementById('alertModal');
+    if (!modalEl) return;
+    
+    document.getElementById('alertModalBody').innerText = message;
+    const bootstrapModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    bootstrapModal.show();
+}
+</script>
+
+<!-- BOOTSTRAP JS BUNDLE -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

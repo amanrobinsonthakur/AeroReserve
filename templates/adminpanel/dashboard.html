@@ -1,0 +1,238 @@
+{% extends 'adminpanel/base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4 fw-bold">
+
+    ✈ Admin Dashboard
+
+</h2>
+
+<div class="row">
+
+    <!-- TOTAL FLIGHTS -->
+
+    <div class="col-md-3 mb-4">
+
+        <a href="/adminpanel/flights/"
+           class="text-decoration-none">
+
+            <div class="card bg-primary text-white shadow-lg border-0 rounded-4 p-4 dashboard-card">
+
+                <h5>
+
+                    Total Flights
+
+                </h5>
+
+                <h1>
+
+                    {{ flights }}
+
+                </h1>
+
+            </div>
+
+        </a>
+
+    </div>
+
+    <!-- TOTAL BOOKINGS -->
+
+    <div class="col-md-3 mb-4">
+
+        <a href="/adminpanel/bookings/"
+           class="text-decoration-none">
+
+            <div class="card bg-success text-white shadow-lg border-0 rounded-4 p-4 dashboard-card">
+
+                <h5>
+
+                    Total Bookings
+
+                </h5>
+
+                <h1>
+
+                    {{ total_bookings }}
+
+                </h1>
+
+            </div>
+
+        </a>
+
+    </div>
+
+    <!-- TOTAL USERS -->
+
+    <div class="col-md-3 mb-4">
+
+        <a href="/adminpanel/users/"
+           class="text-decoration-none">
+
+            <div class="card bg-dark text-white shadow-lg border-0 rounded-4 p-4 dashboard-card">
+
+                <h5>
+
+                    Total Users
+
+                </h5>
+
+                <h1>
+
+                    {{ users }}
+
+                </h1>
+
+            </div>
+
+        </a>
+
+    </div>
+
+    <!-- CONFIRMED -->
+
+    <div class="col-md-3 mb-4">
+
+        <div class="card bg-info text-white shadow-lg border-0 rounded-4 p-4 dashboard-card">
+
+            <h5>
+
+                Confirmed Bookings
+
+            </h5>
+
+            <h1>
+
+                {{ confirmed_bookings }}
+
+            </h1>
+
+        </div>
+
+    </div>
+
+    <!-- CANCELLED -->
+
+    <div class="col-md-4 mb-4">
+
+        <div class="card bg-danger text-white shadow-lg border-0 rounded-4 p-4 dashboard-card">
+
+            <h5>
+
+                Cancelled Bookings
+
+            </h5>
+
+            <h1>
+
+                {{ cancelled_bookings }}
+
+            </h1>
+
+        </div>
+
+    </div>
+
+    <!-- TODAY -->
+
+    <div class="col-md-4 mb-4">
+
+        <div class="card bg-warning text-dark shadow-lg border-0 rounded-4 p-4 dashboard-card">
+
+            <h5>
+
+                Today's Bookings
+
+            </h5>
+
+            <h1>
+
+                {{ today_bookings }}
+
+            </h1>
+
+        </div>
+
+    </div>
+
+    <!-- YESTERDAY -->
+
+    <div class="col-md-4 mb-4">
+
+        <div class="card bg-secondary text-white shadow-lg border-0 rounded-4 p-4 dashboard-card">
+
+            <h5>
+
+                Yesterday's Bookings
+
+            </h5>
+
+            <h1>
+
+                {{ yesterday_bookings }}
+
+            </h1>
+
+        </div>
+
+    </div>
+
+    <!-- WEEKLY -->
+
+    <div class="col-md-12 mb-4">
+
+        <div class="card bg-gradient shadow-lg border-0 rounded-4 p-5 text-white weekly-card">
+
+            <h3>
+
+                Last 7 Days Bookings
+
+            </h3>
+
+            <h1 class="display-4 fw-bold">
+
+                {{ weekly_bookings }}
+
+            </h1>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+.dashboard-card{
+
+    transition:0.3s;
+
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.weekly-card{
+
+    background:linear-gradient(
+        135deg,
+        #6610f2,
+        #0d6efd
+    );
+
+}
+
+a{
+
+    color:inherit;
+
+}
+
+</style>
+
+{% endblock %}

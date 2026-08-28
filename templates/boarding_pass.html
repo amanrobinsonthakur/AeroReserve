@@ -1,0 +1,262 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5 d-flex justify-content-center print-container">
+    <div class="ticket-container shadow-lg">
+        <div class="row g-0">
+            
+            <!-- MAIN PASS (LEFT SIDE) -->
+            <div class="col-lg-8 main-pass p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-plane text-primary fs-4"></i>
+                        <span class="fw-extrabold text-uppercase text-dark tracking-wider">AeroReserve</span>
+                    </div>
+                    <span class="badge bg-primary text-white px-3 py-2 rounded-pill fw-bold text-uppercase">Boarding Pass</span>
+                </div>
+
+                <div class="route-block d-flex align-items-center justify-content-between my-4 text-dark">
+                    <div>
+                        <div class="city-code text-primary">{{ b.flight.source|slice:":3"|upper }}</div>
+                        <div class="city-name text-muted">{{ b.flight.source }}</div>
+                    </div>
+                    <div class="d-flex flex-column align-items-center w-50 position-relative">
+                        <div class="plane-path border-bottom border-dashed w-100"></div>
+                        <i class="fa-solid fa-plane text-primary bg-white px-3 position-relative fs-4" style="z-index: 1; top: -14px;"></i>
+                    </div>
+                    <div class="text-end">
+                        <div class="city-code text-primary">{{ b.flight.destination|slice:":3"|upper }}</div>
+                        <div class="city-name text-muted">{{ b.flight.destination }}</div>
+                    </div>
+                </div>
+
+                <div class="row g-3 text-dark mt-4">
+                    <div class="col-md-6 col-12">
+                        <label class="info-label">Passenger Name(s)</label>
+                        <div class="info-value font-monospace">{{ b.passenger_name }}</div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <label class="info-label">Seat(s)</label>
+                        <div class="info-value font-monospace text-primary">{{ b.seat_numbers }}</div>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <label class="info-label">Travel Class</label>
+                        <div class="info-value">{{ b.travel_class }}</div>
+                    </div>
+                </div>
+
+                <div class="row g-3 text-dark mt-3">
+                    <div class="col-md-3 col-6">
+                        <label class="info-label">Flight</label>
+                        <div class="info-value text-uppercase">{{ b.flight.flight_name }}</div>
+                        <div class="text-muted small">{{ b.flight.flight_no }}</div>
+                    </div>
+                    <div class="col-md-5 col-12">
+                        <label class="info-label">Departure</label>
+                        <div class="info-value text-primary">{{ b.flight.departure_time|date:"d M Y, H:i" }}</div>
+                    </div>
+                    <div class="col-md-4 col-6">
+                        <label class="info-label">Ticket No</label>
+                        <div class="info-value font-monospace">{{ b.ticket_number }}</div>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between border-top border-light-subtle pt-4 mt-4">
+                    <div class="barcode-wrapper">
+                        <div class="barcode font-monospace text-muted">|| ||||| || |||||| || |||||</div>
+                        <div class="text-muted small text-uppercase tracking-wider">Gate Closes 30 mins before departure</div>
+                    </div>
+                    <div class="text-end">
+                        <label class="info-label">Status</label>
+                        <div class="fw-bold text-success text-uppercase"><i class="fa-solid fa-circle-check me-1"></i>{{ b.status }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TICKET STUB SEPARATOR -->
+            <div class="col-lg-1 d-none d-lg-flex flex-column align-items-center justify-content-between py-4 position-relative">
+                <div class="stub-notch top-notch"></div>
+                <div class="stub-divider"></div>
+                <div class="stub-notch bottom-notch"></div>
+            </div>
+
+            <!-- STUB (RIGHT SIDE) -->
+            <div class="col-lg-3 stub-pass p-4 text-dark bg-light d-flex flex-column justify-content-between">
+                <div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="fw-bold small text-muted text-uppercase">Flight Stub</span>
+                        <span class="badge bg-secondary-subtle text-secondary rounded-pill font-monospace small">{{ b.flight.flight_no }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center my-3">
+                        <div>
+                            <div class="fw-bold text-primary">{{ b.flight.source|slice:":3"|upper }}</div>
+                            <div class="small text-muted">{{ b.flight.departure_time|date:"H:i" }}</div>
+                        </div>
+                        <i class="fa-solid fa-plane text-muted small"></i>
+                        <div class="text-end">
+                            <div class="fw-bold text-primary">{{ b.flight.destination|slice:":3"|upper }}</div>
+                            <div class="small text-muted">{{ b.flight.arrival_time|date:"H:i" }}</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="info-label">Passenger</label>
+                        <div class="small fw-semibold text-truncate" style="max-width: 180px;">{{ b.passenger_name }}</div>
+                    </div>
+
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="info-label">Seat</label>
+                            <div class="small fw-bold font-monospace text-primary">{{ b.seat_numbers }}</div>
+                        </div>
+                        <div class="col-6">
+                            <label class="info-label">Class</label>
+                            <div class="small fw-bold">{{ b.travel_class|slice:":8" }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-top border-secondary-subtle pt-3 mt-3 text-center">
+                    <div class="barcode font-monospace text-muted small">||||||||||||</div>
+                    <div class="text-muted small" style="font-size: 9px;">TICKET STUB</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container text-center mb-5 print-hide">
+    <div class="d-flex justify-content-center gap-3">
+        <button class="btn btn-primary rounded-pill px-4 py-2 shadow" onclick="window.print()">
+            <i class="fa-solid fa-print me-2"></i> Print Boarding Pass
+        </button>
+        <a href="{% url 'my_bookings' %}" class="btn btn-outline-secondary rounded-pill px-4 py-2">
+            <i class="fa-solid fa-arrow-left me-2"></i> Back to My Bookings
+        </a>
+    </div>
+</div>
+
+<style>
+    .ticket-container {
+        background: white;
+        border-radius: 28px;
+        overflow: hidden;
+        max-width: 900px;
+        width: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .main-pass {
+        background: white;
+    }
+
+    .stub-pass {
+        border-left: 1.5px dashed rgba(0, 0, 0, 0.1);
+        height: 100%;
+    }
+
+    .city-code {
+        font-size: 36px;
+        font-weight: 900;
+        letter-spacing: -1px;
+    }
+
+    .city-name {
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .plane-path {
+        border-bottom: 2px dashed #cbd5e1 !important;
+        width: 100%;
+    }
+
+    .info-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--text-muted);
+        letter-spacing: 0.5px;
+        display: block;
+        margin-bottom: 3px;
+    }
+
+    .info-value {
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .barcode {
+        font-size: 26px;
+        letter-spacing: 3px;
+        line-height: 1.1;
+    }
+
+    /* Stubs Separator Styles */
+    .stub-notch {
+        width: 24px;
+        height: 12px;
+        background-color: var(--bg-color);
+        position: absolute;
+        z-index: 5;
+    }
+    
+    .top-notch {
+        top: -1px;
+        border-radius: 0 0 12px 12px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-top: none;
+    }
+
+    .bottom-notch {
+        bottom: -1px;
+        border-radius: 12px 12px 0 0;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-bottom: none;
+    }
+
+    .stub-divider {
+        border-left: 2px dashed #cbd5e1;
+        height: 100%;
+    }
+
+    /* PRINT STYLES */
+    @media print {
+        header, footer, nav, .print-hide, .navbar {
+            display: none !important;
+        }
+
+        body, .main-container {
+            background-color: white !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .print-container {
+            padding: 0 !important;
+            margin: 0 !important;
+            display: block !important;
+        }
+
+        .ticket-container {
+            box-shadow: none !important;
+            border: 2px solid #000 !important;
+            border-radius: 0 !important;
+            page-break-inside: avoid;
+        }
+        
+        .stub-pass {
+            background-color: white !important;
+            border-left: 2px dashed #000 !important;
+        }
+
+        .top-notch, .bottom-notch {
+            display: none !important;
+        }
+    }
+</style>
+
+{% endblock %}
