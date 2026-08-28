@@ -57,10 +57,14 @@ AeroReserve is a premium web-based Airline Reservation and Booking System built 
    ```
 
 5. **Start Development Server**
-   ```bash
-   $env:PYTHONPATH="."
-   python Scripts/manage.py runserver
-   ```
+   - **On Windows**: You can start the server using the provided startup file:
+     ```cmd
+     run.bat
+     ```
+   - **Manual/Other Platforms**:
+     ```bash
+     python Scripts/manage.py runserver
+     ```
    Open `http://127.0.0.1:8000/` in your browser.
 
 ---
@@ -68,6 +72,5 @@ AeroReserve is a premium web-based Airline Reservation and Booking System built 
 ## 🧪 Testing
 Run the automated test suite to verify code correctness:
 ```bash
-$env:PYTHONPATH="."
 python Scripts/manage.py test
 ```
